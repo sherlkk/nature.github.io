@@ -1,0 +1,168 @@
+#menu {
+  position: fixed;
+  top: 10px;
+  right: 5px;
+  height: 10px;
+  width: 50px;
+  z-index: 70;
+  padding: 0;
+  margin: 0;
+}
+
+#menu li {
+  display: block;
+  float: right;
+  margin: 5px;
+  width: 1.5vw;
+  height: 1.5vw;
+  background: rgba(100, 100, 100, 0.6);
+  border-radius: 0.75vw;
+}
+
+#menu li img {
+  width: 1.1vw;
+  position: relative;
+  top: 10%;
+  left: 15%;
+}
+
+#menu li.active {
+  background: #666;
+  background: rgba(255, 255, 255, 0.7);
+  color: #fff;
+}
+
+#menu li:hover {
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+}
+
+.fp-controlArrow {
+  top: 51%;
+}
+
+.fp-controlArrow.fp-prev {
+  left: 0;
+  border: none;
+  width: 50px;
+  height: 50px;
+  background: url(./1.png) no-repeat;
+}
+
+.fp-controlArrow.fp-next {
+  right: 0;
+  border: none;
+  width: 50px;
+  height: 50px;
+  background: url(ji.png) no-repeat;
+}
+
+.section {
+  text-align: center;
+  font: "sans-serift";
+  color: #fff;
+  background-position: center center;
+  margin: 0;
+}
+
+.section1 {
+  background-size: cover;
+  background-image: url(ji.png);
+}
+
+a:link {
+  color: white;
+}
+
+a:visited {
+  color: lightgray;
+}
+
+.prjtitle {
+  text-align: center;
+  position: relative;
+  top: -5%;
+  font-family: "serift";
+  font-size: 8vw;
+  font-weight: normal;
+
+  animation: fadeIn 3s;
+}
+
+.prjintro {
+  text-align: center;
+  position: relative;
+  top: 10px;
+  width: 70%;
+  margin: auto;
+  font-family: "serift";
+  font-weight: normal;
+  font-size: 1.2vw;
+
+  animation-delay: 3s;
+  animation: fadeIn 5s;
+}
+
+.downarrow {
+  position: absolute;
+  bottom: 30px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 2vw;
+
+  animation-delay: 7s;
+  animation: slidefromBottom 2s;
+}
+
+#items {
+  margin: auto;
+  width: 50vw;
+  height: 40vw;
+  padding: 0;
+}
+
+#items li {
+  display: block;
+  margin: 80px;
+
+  -webkit-transform: scale(0.5, 0.5);
+  transform: scale(0.5, 0.5);
+  opacity: 0;
+  transition: all 1s;
+}
+
+#items li img {
+  width: 6vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.subtitles {
+  position: relative;
+  top: 20px;
+  left: 130px;
+  text-align: left;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slidefromBottom {
+  from {
+    opacity: 0;
+    bottom: -20px;
+  }
+  to {
+    opacity: 1;
+    bottom: 30px;
+  }
+}
