@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Natural Disasters</title>
+
+    <link rel="stylesheet" type="text/css" href="https://alvarotrigo.com/fullPage/jquery.fullPage.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://alvarotrigo.com/fullPage/jquery.fullpage.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+
+    <link rel="stylesheet" href="a/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=East Sea Dokdo' rel='stylesheet'>
+
+
+    <script>
+        $(function() {
+            $('#myPage').fullpage({
+                sectionsColor: ['#3a3d35', '##3a3d35', '#3a3d35'], 
+                anchors: ['page1', 'page2', 'page3'],
+                menu: '#menu',
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <!-- Menu -->
+    <ul id="menu">
+        <li data-menuanchor="page1" class="active"><a href="#page1" title="Top"><img src="a/home.png"></a></li>
+        <li data-menuanchor="page2"><a href="#page2" title="Bar Chart"><img src="a/bar.png"></a></li>
+        <li data-menuanchor="page3"><a href="#page3" title="Global"><img src="a/earth.png"></a></li>
+    </ul>
+
+    <div id="myPage">
+        <!-- Page1 -->
+        <div class="section section1">
+            <div class="prjtitle">Natural Disasters</div>
+            <div class="prjintro">In most recent years, the number of people who lost their lives in disasters has ranged between 10,000 and 20,000. 
+                <br>But in the years with major earthquakes or cyclones, this number can reach tens of thousands.</div>
+            <img src="a/down.png" alt="Scroll down" class="downarrow" title="scroll">
+        </div>
+        <!-- Page2 -->
+        <div class="section section2">
+            <iframe src="d3.html" height="100%" width="100%" frameBorder="0" scrolling="no"></iframe>
+        </div>
+        <!-- Page3 -->
+        <div class="section section3">
+            <iframe src="d2.html" height="100%" width="100%" frameBorder="0" scrolling="no"></iframe>
+
+        </div>
+        }
+    </script>
+</body>
+
+</html>

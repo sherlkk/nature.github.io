@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>     
+        <meta charset="utf-8">
+        <title>Natural Disaster</title>    
+        <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">    
+        <link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet"> 
+        <script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>  
+     <style>
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            }
+
+            #map {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                width: 100%;
+            }
+
+            h1 {
+                font-size: 15px;
+                line-height: 20px;
+            }
+
+            h2 {
+                font-size: 12px;
+                line-height: 20px;
+                margin-bottom: 10px;
+            }
+
+            a {
+                text-decoration: none;
+                color: #2dc4b2;
+            }
+
+            p {
+                font-size: 11px;
+                line-height: 8px;
+                margin-bottom: 10px;
+            }
+
+            #console {
+                position: absolute;
+                width: 270px;
+                margin: 10px;
+                padding: 20px 20px;
+                background-color: white;
+                opacity: 0.7;
+            }  
+
+            .session {
+                font-size: 11px;
+                line-height: 5px;              
+                margin-bottom: 30px;
+            }
+
+            .flyto {
+                width: 270px;
+                bottom: 100px;
+                background-color: transparent;
+                color: rgb(0, 0, 0);
+                font: 11px/10px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+                border-radius: 0px;
+                box-shadow: 0 1px 2px rgba(190, 61, 61, 0.1);
+                z-index: 1;
+            }
+
+            .row {
+                height: 10px;
+                width: 100%;
+            }
+
+            .colors {
+                background: linear-gradient(to right, #2dc4b2, #3bb3c3, #669ec4, #8b88b6, #a2719b, #aa5e79, #a30b41);
+                margin-bottom: 5px;
+            }
+
+            .label {
+                font-size: 13px;
+                line-height: 8px;
+                width: 13%;
+                display: inline-block;
+                text-align: left;
+            }
+            
+            .flyto button {
+                color: rgb(0, 0, 0);
+                background: transparent;
+                border: 1.5px solid rgb(0, 0, 0);
+                border-radius: 6px;
+                padding: 4px;
+            }
+            .flyto button:hover {
+                color: rgb(255, 255, 255);
+                background: rgb(0, 0, 0);
+                border: 2px solid rgb(255, 255, 255);
+                border-radius: 6px;
+                padding: 4px;
+            }
+     </style>
+ 
+         
+</head>
+    
+<body>
+    <div id="map"></div>
+    
+    <div id='console'>
+    <h1>Earthquakes in Past 30 Days</h1>
+    <p>Data: <a href='https://www.usgs.gov/programs/earthquake-hazards/earthquakes'>UCGS Earthquake Hazards</a></p>
+        <p>Global Data, 10 Mar 2022</p>
+        <div class='session'>
+            <h2>Magnitude(m)</h2>
+            <div class='row colors'>
+            </div>
+        <div class='row labels'>
+        <div class='label'>0</div>
+        <div class='label'>1</div>
+        <div class='label'>2</div>
+        <div class='label'>3</div>
+        <div class='label'>4</div>
+        <div class='label'>5</div>
+        <div class='label'>6+</div>
+        </div>
+        <div class='session'>
+            <h2>Date: <label id='active-date'> 1 Mar 2022 </label></h2>
+            <input id='slider' class='row' type='range' min='1' max='30' step='1' value='22' />
+        </div>
+    </div>
+    <div class='session'>
+        <h2>Types of Earthquakes</h2>
+        <div class='row' id='filters'>
+          <input id='all' type='radio' name='toggle' value='all' checked='checked'>
+          <label for='all'>All</label>
+          <input id='earthquake' type='radio' name='toggle' value='earthquake'>
+          <label for='earthquake'>Earthquake</label>
+          <input id='quarry blast' type='radio' name='toggle' value='quarry blast'>
+          <label for='quarry blast'>Quarry Blast</label>
+          <input id='ice quake' type='radio' name='toggle' value='ice quake'>
+          <label for='ice quake'>Ice Quake</label><br>
+          <input id='explosion' type='radio' name='toggle' value='explosion'>
+          <label for='explosion'>Explosion</label>
+          <input id='other event' type='radio' name='toggle' value='other event'>
+          <label for='other event'>Other Event</label>
+        </div> 
+    </div>
+    <div class="flyto">
+        <h4>Fly To: </h4>
+        <p>
+            <button id="world">World</button>
+            <button id="europe">Europe</button>
+            <button id="north america">North America</button>
+            <button id="east asia">East Asia</button>
+        </p>
+    </div>
+
+
+      </div>
+</div>
+
+<script>	
+    mapboxgl.accessToken = 'pk.eyJ1Ijoic2hlcmxrZXIiLCJhIjoiY2p5bDVwMHJmMDR1djNscDd1eWF4eHpnMiJ9.Vbcq4CS53bHzqfWU_mAaHA';
+    const map = new mapboxgl.Map({
+        container: 'map', // container ID
+        style: 'mapbox://styles/sherlker/cl0jik7k3000d15n4aqxwdvo4', // style URL
+        center: [-177.35, 35.88], // starting position [lng, lat]
+        zoom: 2 // starting zoom
+    });
+
+
+    map.on('load', () => {
+        let filterDate = ['==', ['number', ['get', 'day']], 22];
+        let filterType = ['!=', ['string', ['get', 'type']], 'placeholder'];
+        map.addLayer({
+            id: 'hope',
+            type: 'circle',
+            source: {
+            type: 'geojson',
+            data: 'https://raw.githubusercontent.com/sherlkk/sherlkk/main/hope.geojson' // replace this with the url of your own geojson
+            },
+            paint: {
+             'circle-radius': [
+                'interpolate',
+                ['linear'],
+                ['number', ['get', 'mag']],
+                1,
+                3,
+                5,
+                10
+            ],
+             'circle-color': [
+                'interpolate',
+                ['linear'],
+                ['number', ['get', 'mag']],
+                0,
+                '#2DC4B2',
+                1,
+                '#3BB3C3',
+                2,
+                '#669EC4',
+                3,
+                '#8B88B6',
+                4,
+                '#A2719B',
+                5,
+                '#AA5E79',
+                6,
+                '#A30B41'
+            ],
+            'circle-opacity': 0.6
+            },
+            'filter': ['all', filterDate, filterType]
+        });
+
+            document.getElementById('slider').addEventListener('input', (event) => {
+            const day = parseInt(event.target.value);
+
+            filterDate = ['==', ['number', ['get', 'day']], day];
+            map.setFilter('hope', ['all', filterDate, filterType]);
+            
+            const month = day < 22 ? ' Feb 2022' : ' Mar 2022';
+            const nichi = day < 22 ?  day+7 : day-21;
+            
+            document.getElementById('active-date').innerText = nichi + month;
+            });
+   
+
+        document          
+        .getElementById('filters')
+        .addEventListener('change', (event) => {
+            const type = event.target.value;
+            // update the map filter
+            if (type === 'all') {
+                filterType = ['!=', ['string', ['get', 'type']], 'placeholder'];
+            } else if (type === 'quarry blast') {           
+                filterType = ['match', ['get', 'type'], ['quarry blast'], true, false ];
+            } else if (type === 'ice quake') {           
+                filterType = ['match', ['get', 'type'], ['ice quake'], true, false ];
+            } else if (type === 'explosion') {           
+                filterType = ['match', ['get', 'type'], ['explosion'], true, false ];
+            } else if (type === 'earthquake') {           
+                filterType = ['match', ['get', 'type'], ['earthquake'], true, false ];
+            } else if (type === 'other event') {           
+                filterType = ['match', ['get', 'type'], ['other event'], true, false ];
+            } else {
+                console.error('error');
+            }          
+            map.setFilter('hope', ['all', filterDate, filterType]);   
+        });
+            document.getElementById("world").addEventListener("click", function () {
+                map.flyTo({
+                    center: [145, 0],
+                    zoom: 1
+                });
+            })
+            document.getElementById("europe").addEventListener("click", function () {
+                map.flyTo({
+                    center: [10.5797, 48.2197],
+                    zoom: 2
+                });
+            })
+            document.getElementById("north america").addEventListener("click", function () {
+                map.flyTo({
+                    center: [-133, 40],
+                    zoom: 2
+                });
+            })
+
+            document.getElementById("east asia").addEventListener("click", function () {
+                map.flyTo({
+                    center: [115, 32],
+                    zoom: 2
+                });
+            })
+   });
+    
+  </script>
+ 
+ </body>
+</html>
+

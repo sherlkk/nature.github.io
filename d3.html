@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>D3 Example 8- Bar Chart Data from CSV</title>
+	<link rel="stylesheet" href="a/custom.css">
+	<link rel="stylesheet" href="a/foundation.css">
+	<script src="http://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+  <script src="a/v3.js" charset="utf-8"></script>
+</head>
+
+<body>
+	<div class="container">
+    <br>
+    <br>
+    <br>        
+    <div class="small-12 large-8 large-centered columns">        
+      <h3 class="text-center">Number of deaths by type of natural disaster</h3>       
+      <h3><small>        
+        Deaths from natural disasters have fallen dramatically over the past century, compared to an average of 60,000 over the past decade. Historically, droughts and floods have been the most fatal disaster events. With social and technological developments, these events now cause very few deaths, and the most deadly events today tend to be earthquakes.
+      </small></h3>                        
+    </div>       
+    <div class="row">        
+      <div class="large-12 columns text-center">         
+        <h4 class="subheader">Number of deaths from natural disasters (decadal average)</h4>       
+        <form>         
+          <label><input type="radio" name="mode" value="grouped"> Grouped</label>          
+          <label><input type="radio" name="mode" value="stacked" checked> Stacked</label>     
+        </form>       
+        <div id="chart-svg"></div>      
+      </div>         
+    </div>
+    <script src="a/s3.js"></script>
+</body>
+</html>
